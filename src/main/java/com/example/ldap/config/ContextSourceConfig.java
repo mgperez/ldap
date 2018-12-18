@@ -1,6 +1,6 @@
 package com.example.ldap.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.ldap.core.ContextSource;
@@ -9,6 +9,8 @@ import org.springframework.ldap.core.support.LdapContextSource;
 import org.springframework.ldap.pool.factory.PoolingContextSource;
 import org.springframework.ldap.pool.validation.DefaultDirContextValidator;
 import org.springframework.ldap.transaction.compensating.manager.TransactionAwareContextSourceProxy;
+
+
 
 
 /**
@@ -23,9 +25,6 @@ public class ContextSourceConfig {
 
     public static final String CONNECT_TIMEOUT_ENV = "com.sun.jndi.ldap.connect.timeout";
     public static final String READ_TIMEOUT_ENV = "com.sun.jndi.ldap.read.timeout";
-
-    @Autowired
-    private BasicConfiguration configuration;
 
 
     /*
@@ -95,23 +94,24 @@ public class ContextSourceConfig {
 */
 
     @Bean
+    @ConfigurationProperties(prefix="particulares.ldap.contextsource")
     public LdapContextSource ldapContextSource() {
         LdapContextSource contextSource = new LdapContextSource();
 //        contextSource.setAnonymousReadOnly(true);
 //        contextSource.setUrl("ldap://" + ldapHost + ":" + ldapPort);
 //        s.setUrl(String.format("ldap://localhost:%d", port));
 //        contextSource.setUrls(ldapUrls.toArray(new String[]{}));
-        contextSource.setUrl("ldap://localhost:3060"); // LDAP Url
+//        contextSource.setUrl("ldap://localhost:3060"); // LDAP Url
 
 //        <property name="base" value="${ldapConfig.base}" />
-        contextSource.setBase("dc=mycompany,dc=com"); //Base directory
+//        contextSource.setBase("dc=mycompany,dc=com"); //Base directory
 
-        contextSource.setUserDn("cn=ldapAdmin"); // User to connect to LDAP //ldapUsername);
-        contextSource.setPassword("password1"); // User password //ldapPassword);
+//        contextSource.setUserDn("cn=ldapAdmin"); // User to connect to LDAP //ldapUsername);
+//        contextSource.setPassword("password1"); // User password //ldapPassword);
 //        contextSource.setDirObjectFactory(null);
 
 //        set it to false (which is the recommended value when using spring-ldap) then the AbstractContextSource tells you he will not use the LDAP pooling
-        contextSource.setPooled(false);
+//        contextSource.setPooled(false);
 
 
 /*
@@ -161,4 +161,5 @@ public class ContextSourceConfig {
                 .userSearchBase(ldapUserSearchBase);
     }
 */
+
 }

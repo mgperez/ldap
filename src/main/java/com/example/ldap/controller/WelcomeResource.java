@@ -1,6 +1,7 @@
-package com.example.ldap.Controller;
+package com.example.ldap.controller;
 
 import com.example.ldap.config.BasicConfiguration;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +14,7 @@ import java.util.Map;
 /**
  * http://www.springboottutorial.com/spring-boot-application-configuration
  */
+@Slf4j
 @RestController
 public class WelcomeResource {
 
