@@ -1,5 +1,6 @@
 package com.example.ldap.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.ldap.core.ContextSource;
@@ -15,6 +16,7 @@ import org.springframework.ldap.transaction.compensating.manager.TransactionAwar
  * https://docs.spring.io/spring-ldap/docs/2.3.1.RELEASE/reference/#pooling
  *
  * https://www.programcreek.com/java-api-examples/?code=cuba-platform/cuba/cuba-master/modules/rest-api/src/com/haulmont/restapi/ldap/LdapAuthController.java
+ * https://stackoverflow.com/questions/5486378/how-do-i-combine-a-transactionawarecontextsourceproxy-with-a-poolingcontextsourc
  */
 @Configuration
 public class ContextSourceConfig {
@@ -22,7 +24,11 @@ public class ContextSourceConfig {
     public static final String CONNECT_TIMEOUT_ENV = "com.sun.jndi.ldap.connect.timeout";
     public static final String READ_TIMEOUT_ENV = "com.sun.jndi.ldap.read.timeout";
 
-/*
+    @Autowired
+    private BasicConfiguration configuration;
+
+
+    /*
     <bean id="contextSource" class="org.springframework.ldap.transaction.compensating.manager.TransactionAwareContextSourceProxy">
 	      	<constructor-arg ref="contextSourceTarget" />
 	   	</bean>
@@ -37,6 +43,19 @@ public class ContextSourceConfig {
             test-on-borrow="true"  --> las instancias de DirContext deben ser validadas antes de usarse por el pool.
             test-while-idle="true" /> --> las instancias de DirContext en espera en el pool deben ser validadas con una frecuencia especificada. Los objetos que no pasen la validación serán elimiados del pool.
     </ldap:context-source>
+
+<bean id="pooledContextSource" class="org.springframework.ldap.pool.factory.PoolingContextSource">
+    <property name="contextSource" ref="contextSourceTarget"/>
+    <property name="dirContextValidator" ref="dirContextValidator"/>
+    <property name="testOnBorrow" value="true"/>
+    <property name="testWhileIdle" value="true"/>
+    <property name="minIdle" value="${ldap.minIdle}"/>
+    <property name="maxIdle" value="${ldap.maxIdle}"/>
+    <property name="maxActive" value="${ldap.maxActive}"/>
+    <property name="maxTotal" value="${ldap.maxTotal}"/>
+    <property name="maxWait" value="${ldap.maxWait}"/>
+</bean>
+
 */
     @Bean
     public ContextSource poolingLdapContextSource() {
@@ -81,10 +100,14 @@ public class ContextSourceConfig {
 //        contextSource.setAnonymousReadOnly(true);
 //        contextSource.setUrl("ldap://" + ldapHost + ":" + ldapPort);
 //        s.setUrl(String.format("ldap://localhost:%d", port));
-        contextSource.setUrls(ldapUrls.toArray(new String[]{}));
+//        contextSource.setUrls(ldapUrls.toArray(new String[]{}));
+        contextSource.setUrl("ldap://localhost:3060"); // LDAP Url
+
 //        <property name="base" value="${ldapConfig.base}" />
-        contextSource.setUserDn(ldapUsername);
-        contextSource.setPassword(ldapPassword);
+        contextSource.setBase("dc=mycompany,dc=com"); //Base directory
+
+        contextSource.setUserDn("cn=ldapAdmin"); // User to connect to LDAP //ldapUsername);
+        contextSource.setPassword("password1"); // User password //ldapPassword);
 //        contextSource.setDirObjectFactory(null);
 
 //        set it to false (which is the recommended value when using spring-ldap) then the AbstractContextSource tells you he will not use the LDAP pooling
