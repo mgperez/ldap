@@ -8,6 +8,10 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 
 /**
  * https://github.com/wmfairuz/spring-ldap-user-admin/blob/master/src/main/java/sample/UserApplication.java
+ * https://www.baeldung.com/spring-data-ldap
+ *
+ * @EnableLdapRepositories hints Spring to scan the given package for interfaces marked as @Repository.
+ *
  */
 @SpringBootApplication
 @EnableConfigurationProperties

@@ -1,5 +1,8 @@
 package com.example.ldap.domain;
 
+/**
+ * https://www.baeldung.com/spring-data-ldap
+ */
 public class User {
 
     private String fullName;
