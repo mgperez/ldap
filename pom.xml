@@ -71,11 +71,17 @@
     </dependencies>
 
     <build>
+		<!-- Set the name of the WAR, used as the context root when the app
+            is deployed -->
+        <finalName>${project.artifactId}</finalName>    
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+
+            <!--Remote Debugging-->
+            <!--%EAP_HOME%\bin\standalone.bat - -debug-->
             <!-- WildFly plug-in to deploy the WAR -->
             <plugin>
                 <groupId>org.wildfly.plugins</groupId>
@@ -83,7 +89,8 @@
                 <version>${version.wildfly.maven.plugin}</version>
                 <!-- run a server with debugging enabled -->
                 <configuration>
-                    <jboss-home>C:\EAP-7.1.0</jboss-home>
+                    <!--<jboss-home>C:\EAP-7.1.0</jboss-home>-->
+                    <jboss-home>C:\Users\mgperez\EAP-7.1.0</jboss-home>
                 </configuration>
             </plugin>
 

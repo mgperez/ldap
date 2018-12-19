@@ -44,6 +44,7 @@ public class LdapUserController {
 
     /**
      * http://localhost:9998/test/userlookup?uid=prueba
+     * http://localhost:8080/spring-ldap-rest/test/userlookup?uid=prueba
      * @param uid
      * @return
      */

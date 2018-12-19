@@ -36,6 +36,7 @@ public class WelcomeResource {
 
     /**
      * http://localhost:9998/welcome
+     * http://localhost:8080/spring-ldap-rest/welcome
      * @return
      */
     @GetMapping("/welcome")
