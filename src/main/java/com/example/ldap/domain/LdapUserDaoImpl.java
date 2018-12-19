@@ -20,6 +20,9 @@ import org.springframework.ldap.core.support.AbstractContextMapper;
 import org.springframework.ldap.support.LdapNameBuilder;
 import org.springframework.stereotype.Component;
 
+/**
+ * https://www.adictosaltrabajo.com/2014/04/04/spring-ldap-template/
+ */
 @Component
 public class LdapUserDaoImpl implements LdapUserDao<User> {
 

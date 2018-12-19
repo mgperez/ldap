@@ -1,8 +1,10 @@
 package com.example.ldap.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.ldap.LdapProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
@@ -28,10 +30,14 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * https://dzone.com/articles/spring-transaction-management
  * <tx:annotation-driven transaction-manager="txManager"/>
  * @EnableTransactionManagement Enables Spring’s annotation driven transaction management
+ *
+ * https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#boot-features-ldap
+ *
  */
 @Configuration
+//@EnableConfigurationProperties(LdapProperties.class)
 @EnableTransactionManagement(proxyTargetClass = true)
-public class ContextSourceConfig {
+public class LdapOneConfiguration {
 
     public static final String CONNECT_TIMEOUT_ENV = "com.sun.jndi.ldap.connect.timeout";
     public static final String READ_TIMEOUT_ENV = "com.sun.jndi.ldap.read.timeout";
@@ -40,8 +46,9 @@ public class ContextSourceConfig {
     private Environment environment;
 
 
-    @Bean(name="ldapProperties2")
-    @ConfigurationProperties(prefix="spring.ldap2")
+    @Bean(name="ldapPropertiesOne")
+//    @ConfigurationProperties(prefix="spring.ldapOne")
+    @ConfigurationProperties(prefix="one.ldap.contextsource")
     public LdapProperties ldapProperties() {
         return new LdapProperties();
     }
@@ -83,13 +90,13 @@ public class ContextSourceConfig {
         return new DefaultDirContextValidator();
     }
 
-    @Bean
-    public ContextSource poolingLdapContextSource() {
+    @Bean(name = "poolingContextSourceOne")
+    public ContextSource poolingLdapOneContextSource() {
 
         PoolingContextSource poolingContextSource = new PoolingContextSource();
 //        poolingContextSource.setDirContextValidator(new DefaultDirContextValidator());
         poolingContextSource.setDirContextValidator(dirContextValidator());
-        poolingContextSource.setContextSource(contextSourceTarget());
+        poolingContextSource.setContextSource(contextSourceLdapOneTarget());
         poolingContextSource.setTestOnBorrow(true);
         poolingContextSource.setTestWhileIdle(true);
 
@@ -121,9 +128,9 @@ public class ContextSourceConfig {
 </bean>
 */
 
-    @Bean
-    @ConfigurationProperties(prefix="particulares.ldap.contextsource")
-    public LdapContextSource contextSourceTarget() {
+    @Bean(name = "contextSourceOneTarget")
+//    @ConfigurationProperties(prefix="one.ldap.contextsource")
+    public LdapContextSource contextSourceLdapOneTarget(@Qualifier("ldapPropertiesOne") LdapProperties ldapProperties) {
         LdapContextSource contextSource = new LdapContextSource();
 //        contextSource.setAnonymousReadOnly(true);
 //        contextSource.setUrl("ldap://" + ldapHost + ":" + ldapPort);
@@ -134,7 +141,9 @@ public class ContextSourceConfig {
 //        <property name="base" value="${ldapConfig.base}" />
 //        contextSource.setBase("dc=mycompany,dc=com"); //Base directory
 
+
 //        contextSource.setUserDn("cn=ldapAdmin"); // User to connect to LDAP //ldapUsername);
+        contextSource.setUserDn(this.properties.getUsername());
 //        contextSource.setPassword("password1"); // User password //ldapPassword);
 
 //        https://github.com/SNCF-SIV/spring-security-rest-jwt-ldap/blob/master/src/main/java/com/sncf/siv/poc/security/config/WebSecurityConfiguration.java
@@ -158,12 +167,14 @@ public class ContextSourceConfig {
         cs.setPassword(Config.getLdapPassword());
 */
 
+//        source.setBaseEnvironmentProperties(Collections.<String,Object>unmodifiableMap(this.properties.getBaseEnvironment()));
+
         return contextSource;
     }
 
 
-    @Bean
-    public ContextSource transactionAwareContextSourceProxy(ContextSource poolingLdapContextSource) {
+    @Bean(name = "contextSourceOne")
+    public ContextSource transactionAwareContextSourceProxy(@Qualifier("poolingContextSourceOne")ContextSource poolingLdapContextSource) {
         return new TransactionAwareContextSourceProxy(poolingLdapContextSource);
     }
 
@@ -174,14 +185,26 @@ public class ContextSourceConfig {
 	   	</bean>
 */
 
-//    @Bean(name = "ldapTemplateOne")
-    @Bean
-    public LdapTemplate ldapTemplate(ContextSource transactionAwareContextSourceProxy) {
-        LdapTemplate ldapTemplate = new LdapTemplate(transactionAwareContextSourceProxy);
+    @Bean(name = "ldapTemplateOne")
+    public LdapTemplate ldapOneTemplate(@Qualifier("contextSourceOne")ContextSource contextSource) {
+        LdapTemplate ldapTemplate = new LdapTemplate(contextSource);
 //        ldapTemplate.setIgnorePartialResultException(true);
         return ldapTemplate;
     }
 
+/*
+    @Bean(name = "ldapUserRepoOne")
+    public LdapUserRepository ldapUserRepositoryOne(@Qualifier("ldapTemplateOne") LdapTemplate ldapTemplate,
+                                                    @Qualifier("odm") ObjectDirectoryMapper odm) {
+        return new LdapUserRepository(ldapTemplate, odm);
+    }
+
+    @Bean(name = "ldapFamilyRepoOne")
+    public LdapFamilyRepository ldapFamilyRepositoryOne(@Qualifier("ldapTemplateOne") LdapTemplate ldapTemplate,
+                                                        @Qualifier("odm") ObjectDirectoryMapper odm) {
+        return new LdapFamilyRepository(ldapTemplate, odm);
+    }
+*/
 
 /*
     <bean id="transactionManager" class="org.springframework.ldap.transaction.compensating.manager.ContextSourceTransactionManager">
@@ -192,7 +215,7 @@ public class ContextSourceConfig {
 */
 
     @Bean
-    public ContextSourceTransactionManager contextSourceTransactionManager(ContextSource transactionAwareContextSourceProxy) throws Exception {
+    public ContextSourceTransactionManager contextSourceOneTransactionManager(@Qualifier("contextSourceOne")ContextSource transactionAwareContextSourceProxy) throws Exception {
         ContextSourceTransactionManager contextSourceTransactionManager = new ContextSourceTransactionManager();
         contextSourceTransactionManager.setContextSource(transactionAwareContextSourceProxy);
         contextSourceTransactionManager.setRenamingStrategy(new DefaultTempEntryRenamingStrategy());

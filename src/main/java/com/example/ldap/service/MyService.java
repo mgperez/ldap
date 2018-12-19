@@ -8,7 +8,6 @@ import org.springframework.ldap.core.LdapTemplate;
 import org.springframework.ldap.core.support.LdapContextSource;
 import org.springframework.ldap.transaction.compensating.manager.ContextSourceTransactionManager;
 import org.springframework.ldap.transaction.compensating.manager.TransactionAwareContextSourceProxy;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
@@ -16,7 +15,6 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
 /**
  * https://nitinbksc.wordpress.com/2012/06/07/programmatic-way-of-ldap-transaction/
  */
-@Service
 public class MyService {
 
     private ILdapEntityDAO entityDAO = new LdapEntityDAO();

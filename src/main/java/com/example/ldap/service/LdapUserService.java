@@ -12,6 +12,7 @@ import java.util.List;
 
 /**
  * https://github.com/wmfairuz/spring-ldap-user-admin/blob/master/src/main/java/sample/service/LdapUserService.java
+ * https://github.com/spring-projects/spring-ldap/blob/master/samples/user-admin/src/main/java/org/springframework/ldap/samples/useradmin/service/UserService.java
  */
 @Component
 public class LdapUserService {
