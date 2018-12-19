@@ -7,6 +7,7 @@ import org.springframework.ldap.NameAlreadyBoundException;
 import org.springframework.ldap.NameNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -28,6 +29,7 @@ public class LdapUserService {
         return ldapUserDao.getAllPersons();
     }
 
+    @Transactional(value = "transactionManagerOne", readOnly = true)
     public User findUserByString(String dn) throws NameNotFoundException {
         return ldapUserDao.findUserByString(dn);
     }
@@ -36,6 +38,7 @@ public class LdapUserService {
         return ldapUserDao.findUser(user);
     }
 
+    @Transactional(value = "transactionManagerOne")
     public void createUser(User user) throws NameAlreadyBoundException {
         ldapUserDao.create(user);
     }

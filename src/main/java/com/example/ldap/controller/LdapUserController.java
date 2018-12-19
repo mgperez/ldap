@@ -42,11 +42,17 @@ public class LdapUserController {
         return ldapUserService.getAllPersons();
     }
 
+    /**
+     * http://localhost:9998/test/userlookup?uid=prueba
+     * @param uid
+     * @return
+     */
     @RequestMapping("/test/userlookup")
     @ResponseBody
     public User getUserByString(@RequestParam(value="uid", defaultValue="test.001") String uid) {
         log.info("Testing user lookup using String Dn");
-        String str = "uid=" + uid + ",ou=people";
+//        String str = "uid=" + uid + ",ou=people";
+        String str = "cn=" + uid + ",ou=bbvaespana";
         return ldapUserService.findUserByString(str);
     }
 

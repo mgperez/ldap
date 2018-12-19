@@ -34,6 +34,10 @@ public class WelcomeResource {
         return map;
     }
 
+    /**
+     * http://localhost:9998/welcome
+     * @return
+     */
     @GetMapping("/welcome")
     public String retrieveWelcomeMessage() {
         // Complex Method

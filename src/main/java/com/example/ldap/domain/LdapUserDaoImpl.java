@@ -27,7 +27,7 @@ import org.springframework.stereotype.Component;
 public class LdapUserDaoImpl implements LdapUserDao<User> {
 
     @Autowired
-    @Qualifier(value = "ldapTemplate")
+    @Qualifier(value = "ldapTemplateOne")
     private LdapTemplate ldapTemplate;
 
 
