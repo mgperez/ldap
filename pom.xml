@@ -17,6 +17,7 @@
 
     <properties>
         <java.version>1.8</java.version>
+        <version.wildfly.maven.plugin>2.0.0.Final</version.wildfly.maven.plugin>
     </properties>
 
     <dependencies>
@@ -75,6 +76,17 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+            <!-- WildFly plug-in to deploy the WAR -->
+            <plugin>
+                <groupId>org.wildfly.plugins</groupId>
+                <artifactId>wildfly-maven-plugin</artifactId>
+                <version>${version.wildfly.maven.plugin}</version>
+                <!-- run a server with debugging enabled -->
+                <configuration>
+                    <jboss-home>C:\EAP-7.1.0</jboss-home>
+                </configuration>
+            </plugin>
+
         </plugins>
     </build>
 

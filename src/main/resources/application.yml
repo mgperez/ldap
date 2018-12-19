@@ -1,7 +1,7 @@
 debug: true
 
-server:
-  port: 9998
+#server:
+#  port: 9998
 
 
 amba.ldap.contextSource:

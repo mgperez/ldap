@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jboss-web>
+
+ 	<context-root>spring-ldap-rest</context-root>
+ 	
+ 	<!-- 
+    <resource-ref>
+	    <description>
+	    Resource reference to a factory for java.sql.Connection
+	    instances that may be used for talking to a particular
+	    database that is configured in the server.xml file.
+	  </description>	
+	 <description>postgreSQL Datasource example</description>
+	 <res-ref-name>jdbc/MyPU</res-ref-name> 
+	 <res-type>javax.sql.DataSource</res-type>
+	 <jndi-name>java:jboss/MySQLDS</jndi-name>
+	</resource-ref>
+	 -->
+
+	
+</jboss-web>
