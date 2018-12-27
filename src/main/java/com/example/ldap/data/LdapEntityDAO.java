@@ -1,6 +1,5 @@
 package com.example.ldap.data;
 
-import com.example.ldap.config.LdapContextHolder;
 import org.springframework.ldap.core.LdapTemplate;
 
 /**

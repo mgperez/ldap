@@ -2,6 +2,7 @@ debug: true
 
 #server:
 #  port: 9998
+#  contextPath: /spring-ldap-rest
 
 
 amba.ldap.contextSource:
@@ -10,5 +11,4 @@ amba.ldap.contextSource:
   password: secret
   base: dc=amba,dc=online
   directory.type: NORMAL
-
 

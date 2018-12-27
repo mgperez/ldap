@@ -1,5 +1,6 @@
 package com.example.ldap.config;
 
+import com.example.ldap.service.SampleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.ldap.LdapProperties;
@@ -50,11 +51,17 @@ public class LdapOneConfiguration {
     private Environment environment;
 
 
+
 //    @Bean(name="ldapPropertiesOne")
 //    @ConfigurationProperties(prefix="one.ldap.contextsource")
 //    public LdapProperties ldapPropertiesOne() {
 //        return new LdapProperties();
 //    }
+
+    @Bean(name="poolProperties")
+    public CustomProperties customProperties() {
+        return new CustomProperties();
+    }
 
 
     /*
@@ -95,6 +102,8 @@ public class LdapOneConfiguration {
 
     @Bean(name = "poolingContextSourceOne")
     public ContextSource poolingLdapOneContextSource(@Qualifier("contextSourceOneTarget")LdapContextSource contextSourceLdapOneTarget) {
+
+        CustomProperties customProperties = customProperties();
 
         PoolingContextSource poolingContextSource = new PoolingContextSource();
 //        poolingContextSource.setDirContextValidator(new DefaultDirContextValidator());

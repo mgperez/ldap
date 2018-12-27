@@ -1,6 +1,6 @@
 package com.example.ldap.service;
 
-import com.example.ldap.config.LdapContextHolder;
+import com.example.ldap.data.LdapContextHolder;
 import com.example.ldap.data.EntityObj;
 import com.example.ldap.data.ILdapEntityDAO;
 import com.example.ldap.data.LdapEntityDAO;

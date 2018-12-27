@@ -1,4 +1,4 @@
-package com.example.ldap.config;
+package com.example.ldap.data;
 
 import org.springframework.ldap.core.LdapTemplate;
 
